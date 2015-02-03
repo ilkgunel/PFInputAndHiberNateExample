@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>JSF,PrimeFaces,HiberNate Örneği</title>
+    <style type="text/css">
+
+        .custom  .keypad-clear {
+            width: 68px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputText value="Adınız Soyadınız"/>
+            <p:inputText value="#{veriTabaninaGonderme.isimSoyisim}"/>
+
+            <h:outputText value="Yaşınız"/>
+            <h:outputText id="output" value="Yaşınız #{veriTabaninaGonderme.yas}" />
+            <h:inputHidden id="yas" value="#{veriTabaninaGonderme.yas}" />
+            <p:slider for="yas" display="output" displayTemplate="Yaşınız {value}"/>
+
+            <h:outputText value="Adresiniz"/>
+            <h:inputTextarea value="#{veriTabaninaGonderme.adres}"/>
+
+            <h:outputText value="Oturduğunuz İli Giriniz"/>
+            <p:autoComplete value="#{veriTabaninaGonderme.il}" completeMethod="#{veriTabaninaGonderme.completeText}"/>
+
+            <h:outputText value="Doğum Tarihinizi Giriniz"/>
+            <p:calendar value="#{veriTabaninaGonderme.dogumtarihi}" mode="popup"/>
+
+            <h:outputText value="Telefon Numaranızı Giriniz"/>
+            <p:inputMask mask="(999) 999 9999" value="#{veriTabaninaGonderme.telefonno}"/>
+
+            <h:outputText value="Cinsiyetiniz"/>
+            <p:selectOneRadio value="#{veriTabaninaGonderme.cinsiyet}">
+                <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                <f:selectItem itemLabel="Bayan" itemValue="Bayan"/>
+            </p:selectOneRadio>
+
+            <h:outputText value="Medeni Haliniz"/>
+            <p:inputSwitch value="#{veriTabaninaGonderme.medenihal}" offLabel="Bekar" onLabel="Evli"/>
+
+            <h:outputText value="Daha Önce Çalıştı İseniz Maaşınız Ne Kadardı"/>
+            <p:spinner value="#{veriTabaninaGonderme.eskimaas}" suffix="TL" max="3000" min="2000"/>
+
+            <h:outputText value="Kısaca Kendinizden Bahsedin"/>
+            <p:editor value="#{veriTabaninaGonderme.hakkindabilgi}" />
+
+            <h:outputText value="Kayıt İçin Şifre Giriniz"/>
+            <p:password id="parola" match="parolaOnay" validatorMessage="Parolalar Uyuşmuyor" feedback="true" weakLabel="Zayıf"
+                        goodLabel="Orta" strongLabel="Güçlü" promptLabel="Lütfen Şifre Giriniz"
+                        label="Parola" value="#{veriTabaninaGonderme.parola}"/>
+
+            <h:outputText value="Şifreyi Doğrulama İçin Tekrar Giriniz"/>
+            <p:password id="parolaOnay" label="Doğrulama" value="#{veriTabaninaGonderme.parolaOnay}"/>
+
+            <h:outputText value=""/>
+            <p:messages id="messages" showDetail="true" autoUpdate="true" />
+
+            <h:outputText value="İstanbulda Tercih Ettiğiniz Otobüsleri Seçin"/>
+            <p:selectCheckboxMenu filter="custom" label="Firmalar" value="#{veriTabaninaGonderme.kullanilanOtobusler}">
+                <f:selectItems value="#{veriTabaninaGonderme.otobusler}"/>
+            </p:selectCheckboxMenu>
+
+            <h:outputText value="Sitemize Kaç Puan Verirsiniz?"/>
+            <p:rating value="#{veriTabaninaGonderme.verilenOy}" stars="10" cancel="false" onRate="alert('Verdiğiniz Oy'+value)"/>
+
+            <h:outputText value="Keyboard Bileşenini Nasıl Buluyorsunuz?"/>
+            <p:keyboard value="#{veriTabaninaGonderme.keyboardDusunce}"  styleClass="custom" layout="custom" backspaceLabel="Sil" closeLabel="Kapat"
+                     clearLabel="Temizle" layoutTemplate="abcçd-back,efgğh-clear,ıijkl-close,mnoöp-shift,rsştu,üvyz,spacebar"/>
+
+            <h:outputText value="İmkan Verilse Hangi Şehirde Yaşamak İsterdiniz? &lt;br/&gt; (Şehirler Yazısına Çift Tıklayınız)" escape="false"/>
+            <p:inplace label="Şehirler" event="dblclick">
+                <h:selectOneMenu value="#{veriTabaninaGonderme.yasamakIstenenSehir}">
+                    <f:selectItem itemValue="Samsun" itemLabel="Samsun"/>
+                    <f:selectItem itemValue="Trabzon" itemLabel="Trabzon"/>
+                    <f:selectItem itemValue="Ankara" itemLabel="Ankara"/>
+                    <f:selectItem itemValue="İzmir" itemLabel="İzmir"/>
+                    <f:selectItem itemValue="Bursa" itemLabel="Bursa"/>
+                    <f:selectItem itemValue="Antalya" itemLabel="Antalya"/>
+                    <f:selectItem itemValue="İstanbul" itemLabel="İstanbul"/>
+                </h:selectOneMenu>
+            </p:inplace>
+
+            <h:outputText value="Verdiğiniz Bilgilerin Doğruluğunu Onaylıyor musunuz?"/>
+            <p:selectBooleanCheckbox value="#{veriTabaninaGonderme.sartlarKabulEdildimi}"/>
+
+            <h:commandButton value="GÖNDER" actionListener="#{veriTabaninaGonderme.veriTabaninaGonder}" action="index.xhtml"/>
+            <p:outputLabel value="#{veriTabaninaGonderme.islemSonucu}" rendered="#{veriTabaninaGonderme.islemSonucunuGoster}"/>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>
+
