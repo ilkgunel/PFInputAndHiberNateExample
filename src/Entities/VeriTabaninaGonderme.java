@@ -1,6 +1,11 @@
 package Entities;
 import org.hibernate.*;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.Service;
+import org.hibernate.service.ServiceRegistry;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -214,7 +219,7 @@ public class VeriTabaninaGonderme {
         return results;
     }
 
-    public void veriTabaninaGonder() throws ParseException
+    public void veriTabaninaGonder()
     {
         if(sartlarKabulEdildimi) {
             //dogumTarihi
@@ -246,8 +251,18 @@ public class VeriTabaninaGonderme {
             kisilerNesnesi.setKeyboarddusunce(keyboardDusunce);
             kisilerNesnesi.setYasamakistenensehir(yasamakIstenenSehir);
 
-            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            /*SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
             Session oturum = sessionFactory.openSession();
+            oturum.beginTransaction();
+            oturum.save(kisilerNesnesi);
+            oturum.getTransaction().commit();*/
+
+            Configuration configuration=new Configuration();
+            configuration.configure();
+            ServiceRegistry serviceRegistry=new StandardServiceRegistryBuilder().applySettings(
+                    configuration.getProperties()).build();
+            SessionFactory sessionFactory=configuration.buildSessionFactory(serviceRegistry);
+            Session oturum=sessionFactory.openSession();
             oturum.beginTransaction();
             oturum.save(kisilerNesnesi);
             oturum.getTransaction().commit();
